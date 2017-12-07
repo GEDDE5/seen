@@ -1,0 +1,18 @@
+{
+  "name": "Seen",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/GEDDE5/seen",
+  "author": "dg",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "compression": "^1.7.1",
+    "cors": "^2.8.4",
+    "debug": "^3.1.0",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "linkify-it": "^2.0.3",
+    "metascraper": "^1.0.7"
+  }
+}
