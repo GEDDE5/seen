@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
-  resources :users
-  resources :rooms
+  get 'users/ident', to: 'users#show'
+  post 'users/create', to: 'users#create'
 end
