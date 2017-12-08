@@ -1,11 +1,15 @@
 const colour = require('./colours')
 
-module.exports = (req, res) => {
-  const date = (new Date).toLocaleDateString()
-  const time = (new Date).toLocaleTimeString()
-  const httpVersion = `HTTP/${req.httpVersion}`
-  const statusCode = `${res.statusCode < 400 ? colour.green : color.red}${res.statusCode}${colour.reset}`
-  const method = `${req.method}`
-  const url = `${req.url}`
-  return `\n${date} @ ${time} - ${httpVersion} - ${statusCode} ${method} => ${url}\n`
+module.exports = args => {
+  const date = new Date().toLocaleDateString()
+  const time = new Date().toLocaleTimeString()
+  const httpVersion = `HTTP/${args.req.httpVersion}`
+  const statusCode = args.res
+    ? `${args.res.statusCode < 400 ? colour.green : colour.red}${args.res.statusCode}${colour.reset}`
+    : `${args.err.statusCode < 400 ? colour.green : colour.red}${args.err.statusCode}${colour.reset}`
+  const method = `${args.req.method}`
+  const url = `${args.req.url}`
+  const err = args.err
+    && `${colour.red}${args.err.stack}${colour.reset}`
+  return `\n${date} @ ${time} - ${httpVersion} - ${statusCode} ${method} => ${url}\n${err && err}`
 }

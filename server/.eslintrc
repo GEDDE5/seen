@@ -1,0 +1,23 @@
+{
+  "env": {
+      "browser": false,
+      "node": true
+  },
+  "extends": ["airbnb-base"],
+  "parser": "babel-eslint",
+  "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+          "jsx": true
+      }
+  },
+  "rules": {
+      "arrow-parens": 0,
+      "comma-dangle": 0,
+      "no-console": 0,
+      "semi": 0,
+      "strict": 0
+  }
+}
+

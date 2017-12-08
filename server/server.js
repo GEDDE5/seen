@@ -1,3 +1,4 @@
+/* eslint-disable */
 const express         = require('express')
 const server          = express()
 
@@ -9,6 +10,7 @@ const poweredBy       = require('./middlewares/powered-by')
 const logger          = require('./middlewares/logger')
 
 const serviceRoutes   = require('./routes/services')
+/* eslint-enable */
 
 server
   .use(cors())
@@ -18,5 +20,6 @@ server
   .use(logger())
   .use('/', serviceRoutes)
   .use('/*', (req, res) => res.status(418).send('Oops'))
+  .use(logger('err'))
 
 module.exports = server
