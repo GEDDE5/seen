@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import api from '../utils/api'
 
+import Routes from './Routes'
+
 import Loading from './shared/Loading/'
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -59,7 +61,9 @@ class App extends Component {
 
     return (
       <div className='App'>
-        <p>SEEN</p>
+        <Routes
+          token={this.token}
+        />
       </div>
     )
   }
