@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-console.log(process.env);
-
 const railsURL = process.env.NODE_ENV === 'production'
   ? process.env.REACT_APP_RAILS_API_PRODUCTION
   : process.env.REACT_APP_RAILS_API_DEV
