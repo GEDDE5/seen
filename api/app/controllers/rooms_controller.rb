@@ -14,7 +14,8 @@ class RoomsController < ApplicationController
   # POST /rooms/:id/auth
   def auth
     if current_user
-      id, password = room_params.values_at(:id, :password)
+      id = params[:id]
+      password = room_params[:password]
       if id && password
         if @room = Room.find_by(id: id)
           if @room.attributes[:private]
