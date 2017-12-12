@@ -61,9 +61,11 @@ class App extends Component {
 
     return (
       <div className='App'>
-        <Routes
-          token={this.token}
-        />
+        <div className='container'>
+          <Routes
+            token={this.token}
+          />
+        </div>
       </div>
     )
   }

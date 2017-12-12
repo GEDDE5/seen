@@ -1,0 +1,19 @@
+.Banner {
+  background: $primary;
+  padding: 1rem 0 0.4rem 0;
+  text-align: center;
+
+  h1 {
+    color: #f0f0f0;
+    font-family: 'Quando', serif;
+    font-size: 3rem;
+    letter-spacing: 6px;
+    text-shadow: 1px 1px 5px #333;
+  }
+
+  a {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

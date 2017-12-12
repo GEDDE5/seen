@@ -9,7 +9,7 @@ class RoomBase extends Component {
 
   render() {
     return (
-      <div class='RoomBase'>
+      <div className='RoomBase'>
         <Room />
       </div>
     )

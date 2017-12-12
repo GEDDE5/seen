@@ -1,0 +1,31 @@
+.Container {
+  .top-spacer {
+    margin-top: 15vh;
+  }
+
+  .home-container {
+    border: 1px solid $primary;
+    border-radius: 3px;
+    box-shadow: -1px 1px 1.5em rgba(72, 153, 176, 0.3);
+    margin: 0 auto;
+    opacity: 0.8;
+    padding: 0;
+
+    &:hover {
+      box-shadow: -1px 1px 1.5em rgba(72, 153, 176, 0.5);
+      opacity: 1;
+    }
+  }
+
+  .page {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+
+    .page-description {
+      font-size: 0.8rem;
+      font-weight: 300;
+      margin-bottom: 0;
+    }
+  }
+}

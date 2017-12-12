@@ -1,8 +1,28 @@
 import React from 'react'
 
-const What = props => (
+const What = () => (
   <div className='What'>
-    <p>What</p>
+    <strong>
+      SEEN
+    </strong>
+    &nbsp;was a side-project made by Donald Geddes in 2017; it was built in an effort to:
+    <ol>
+      <li>
+        Use Rails 5 in <pre>--api</pre> mode
+      </li>
+      <li>
+        Pair React with Rails' <pre>ActionCable</pre>
+      </li>
+      <li>
+        Get on better terms w/ <pre>react-router</pre>
+      </li>
+      <li>
+        Have a go at ES7's <pre>async/await</pre>
+      </li>
+      <li>
+        Connect disconnected friends
+      </li>
+    </ol>
   </div>
 )
 

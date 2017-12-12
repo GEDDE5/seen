@@ -1,0 +1,38 @@
+.What {
+  padding: 1.5rem 3rem 0.5rem 4rem;
+  text-align: left;
+
+  @media #{$mobile} {
+    padding: 1rem 2rem 0.5rem 4rem;
+  }
+
+  strong {
+    font-weight: bolder;
+  }
+
+  pre {
+    background-color: rgba(250, 245, 233, 0.9);
+    color: #c31313;
+    display: inline-block;
+    margin: 0;
+    padding: 0.35rem;
+    vertical-align: middle;
+  }
+
+  ol {
+    margin-top: 1rem;
+    padding-left: 1.5rem;
+
+    @media #{$mobile} {
+      margin-top: 1rem;
+    }
+  }
+
+  li {
+    margin-top: 0.25rem;
+
+    @media #{$mobile} {
+      margin-top: 0.5rem;
+    }
+  }
+}
