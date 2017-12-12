@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import api from '../utils/api'
 
-import Loading from './shared/loading/Loading'
+import Loading from './shared/Loading/'
 
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends Component {
