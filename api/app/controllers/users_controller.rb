@@ -8,21 +8,19 @@ class UsersController < ApplicationController
 
   # POST /users/create
   def create
-    @user = User.new()
+    @user = User.new
 
     if @user.save
       render json: { user: @user, token: @user.generate_token }, status: :created
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: @user.flat_errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /users/1
-  def update
-    if @user.update(user_params)
-      render json: @user
-    else
-      render json: @user.errors, status: :unprocessable_entity
+  # GET /users/update-token
+  def update_token
+    if current_user
+      render json: { token: current_user.generate_token }
     end
   end
 

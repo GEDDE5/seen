@@ -1,16 +1,42 @@
 class RoomsController < ApplicationController
-  before_action :set_room, only: [:show, :update, :destroy]
-
-  # GET /rooms
-  def index
-    @rooms = Room.all
-
-    render json: @rooms
+  # GET /rooms/find-by?param=(slug/name)&value=(:slug/:name)
+  def show
+    if current_user && current_room
+      if current_room.user_permitted?(current_user)
+        render json: current_room.safe
+      else
+        res = { errors: ['This room requires a password'] }
+        render json: response, status: :unauthorized
+      end
+    end
   end
 
-  # GET /rooms/1
-  def show
-    render json: @room
+  # POST /rooms/:id/auth
+  def auth
+    if current_user
+      id, password = room_params.values_at(:id, :password)
+      if id && password
+        if @room = Room.find_by(id: id)
+          if @room.attributes[:private]
+            if @room.authenticate!(password)
+              current_user.update_room_permissions!(@room)
+              render json: @room.safe
+            else
+              res = { errors: ['Incorrect password'] }
+              render json: res, status: :unauthorized
+            end
+          else
+            render json: @room.safe
+          end
+        else
+          res = { errors: ['Unable to find room'] }
+          render json: res, status: :not_found
+        end
+      else
+        res = { errors: ['Missing required params (id, password)'] }
+        render json: res, status: :bad_request
+      end
+    end
   end
 
   # POST /rooms
@@ -18,18 +44,11 @@ class RoomsController < ApplicationController
     @room = Room.new(room_params)
 
     if @room.save
-      render json: @room, status: :created, location: @room
+      current_user.update_room_permissions!(@room)
+      render json: @room.safe, status: :created
     else
-      render json: @room.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /rooms/1
-  def update
-    if @room.update(room_params)
-      render json: @room
-    else
-      render json: @room.errors, status: :unprocessable_entity
+      res = { errors: @room.flat_errors }
+      render json: res, status: :unprocessable_entity
     end
   end
 
@@ -39,13 +58,8 @@ class RoomsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_room
-      @room = Room.find(params[:id])
-    end
-
     # Only allow a trusted parameter "white list" through.
     def room_params
-      params.require(:room).permit(:name, :password_digest, :slug)
+      params.require(:room).permit(:id, :password)
     end
 end

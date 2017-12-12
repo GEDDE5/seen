@@ -3,8 +3,11 @@ class User < ApplicationRecord
   has_many :rooms, through: :permissions
   has_many :messages
 
+  def update_room_permissions!(room)
+    self.permissions.first_or_create(room: room)
+  end
+
   def generate_token
-    rooms = self.rooms.pluck(:id)
-    Token.encode({ sub: self.id, rooms: rooms })
+    Token.encode({ sub: self.id })
   end
 end
