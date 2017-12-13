@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  def current_user
+  def validate_user
     if header = request.headers['Authorization']
       if token = header.split[1]
         begin
@@ -9,7 +9,7 @@ class ApplicationController < ActionController::API
           render json: res, status: :unprocessable_entity and return
         end
         if Token.is_valid? token
-          User.find(token['sub'])
+          @user = User.find(token['sub'])
         else
           res = {
             errors:

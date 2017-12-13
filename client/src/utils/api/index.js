@@ -20,16 +20,17 @@ const api = token => {
           }
           return rails.post('rooms', room).then(res => res.data)
         },
-        auth: (id, password) => {
+        auth: (name, password) => {
           const room = {
             room: {
+              name,
               password
             }
           }
-          return rails.post(`rooms/${id}/auth`, room).then(res => res.data)
+          return rails.post('rooms/auth', room).then(res => res.data)
         },
-        findBy: (param, value) =>
-          rails.get(`rooms/find-by?param=${param}&value=${value}`).then(res => res.data)
+        join: slug =>
+          rails.get(`rooms/${slug}`).then(res => res.data)
       }
     },
     express: {

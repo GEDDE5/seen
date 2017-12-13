@@ -9,7 +9,10 @@ const New = props => (
         Create new room
       </p>
     </div>
-    <Input />
+    <Input
+      {...props}
+      action='create'
+    />
   </div>
 )
 

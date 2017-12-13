@@ -1,55 +1,74 @@
 class RoomsController < ApplicationController
+  before_action :validate_user
+
   # GET /rooms/find-by?param=(slug/name)&value=(:slug/:name)
   def show
-    if current_user && current_room
-      if current_room.user_permitted?(current_user)
-        render json: current_room.safe
+    slug = params[:slug]
+
+    if @room = Room.find_by(slug: slug)
+      if @room.attributes[:private]
+        if @room.user_permitted?(@user)
+          render json: @room.safe
+        else
+          res = { errors: ['This room requires a password'] }
+          render json: res, status: :unauthorized
+        end
       else
-        res = { errors: ['This room requires a password'] }
-        render json: response, status: :unauthorized
+        render json: @room.safe
       end
+    else
+      res = { errors: ['Room does not exist'] }
+      render json: res, status: :not_found
     end
   end
 
-  # POST /rooms/:id/auth
+  # POST /rooms/auth
   def auth
-    if current_user
-      id = params[:id]
-      password = room_params[:password]
-      if id && password
-        if @room = Room.find_by(id: id)
-          if @room.attributes[:private]
-            if @room.authenticate!(password)
-              current_user.update_room_permissions!(@room)
-              render json: @room.safe
-            else
-              res = { errors: ['Incorrect password'] }
-              render json: res, status: :unauthorized
-            end
-          else
-            render json: @room.safe
-          end
+    room_name, password = room_params.values_at(:name, :password)
+
+    if @room = Room.find_by(name: room_name)
+      if @room.attributes[:private]
+        unless password
+          render json: { errors: false }
         else
-          res = { errors: ['Unable to find room'] }
-          render json: res, status: :not_found
+          if @room.authenticate!(password)
+            @user.update_room_permissions!(@room)
+            render json: @room.safe
+          else
+            res = { errors: ['Incorrect password'] }
+            render json: res, status: :unauthorized
+          end
         end
       else
-        res = { errors: ['Missing required params (id, password)'] }
-        render json: res, status: :bad_request
+        render json: @room.safe
       end
+    else
+      res = { errors: ['Room does not exist'] }
+      render json: res, status: :unprocessable_entity
     end
   end
 
   # POST /rooms
   def create
-    @room = Room.new(room_params)
-
-    if @room.save
-      current_user.update_room_permissions!(@room)
-      render json: @room.safe, status: :created
-    else
-      res = { errors: @room.flat_errors }
+    room_name, password = room_params.values_at(:name, :password)
+    @room = Room.find_by(name: room_name)
+    if @room
+      res = { errors: ['Room already exists'] }
       render json: res, status: :unprocessable_entity
+    else
+      unless password
+        render json: { errors: false }
+      else
+        @room = Room.new(room_params)
+
+        if @room.save
+          @user.update_room_permissions!(@room)
+          render json: @room.safe, status: :created
+        else
+          res = { errors: @room.flat_errors }
+          render json: res, status: :unprocessable_entity
+        end
+      end
     end
   end
 
@@ -61,6 +80,6 @@ class RoomsController < ApplicationController
   private
     # Only allow a trusted parameter "white list" through.
     def room_params
-      params.require(:room).permit(:id, :name, :password)
+      params.require(:room).permit(:name, :password)
     end
 end

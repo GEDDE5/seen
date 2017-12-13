@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
+  before_action :validate_user, except: [:create]
+
   # GET /users/ident
   def show
-    if current_user
-      render json: current_user
+    if @user
+      render json: @user
     end
   end
 
@@ -19,8 +21,8 @@ class UsersController < ApplicationController
 
   # GET /users/update-token
   def update_token
-    if current_user
-      render json: { token: current_user.generate_token }
+    if @user
+      render json: { token: @user.generate_token }
     end
   end
 

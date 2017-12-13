@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get 'users/ident', to: 'users#show'
   get 'users/update-token', to: 'users#update_token'
 
-  get 'rooms/find-by', to: 'rooms#show'
+  get 'rooms/:slug', to: 'rooms#show'
   post 'rooms', to: 'rooms#create'
-  post 'rooms/:id/auth', to: 'rooms#auth'
+  post 'rooms/auth', to: 'rooms#auth'
 end

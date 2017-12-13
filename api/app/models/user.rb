@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :messages
 
   def update_room_permissions!(room)
-    self.permissions.first_or_create(room: room)
+    self.permissions.find_or_create_by(room: room)
   end
 
   def generate_token
