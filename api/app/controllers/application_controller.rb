@@ -29,25 +29,4 @@ class ApplicationController < ActionController::API
       render json: res, status: :bad_request and return
     end
   end
-
-  def current_room
-    permitted_params = ['id', 'slug', 'name']
-    param, value = params.values_at(:param, :value)
-    if param && value
-      if permitted_params.include? param
-        if room = Room.send("find_by_#{param}", value)
-          room
-        else
-          res = { errors: ["Unable to find room by #{param} (#{value})"] }
-          render json: res, status: :not_found and return
-        end
-      else
-        res = { errors: ['Invalid find-by parameter'] }
-        render json: res, status: :bad_request and return
-      end
-    else
-      res = { errors: ['Unable to find param and/or value'] }
-      render json: res, status: :bad_request and return
-    end
-  end
 end
