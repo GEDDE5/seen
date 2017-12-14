@@ -1,0 +1,13 @@
+.ActionPage {
+  .errors {
+    display: flex;
+    justify-content: center;
+    height: 1rem;
+    margin-bottom: 1.5rem;
+
+    p {
+      color: darkred;
+      margin-bottom: 0;
+    }
+  }
+}

@@ -8,7 +8,7 @@ class Room extends Component {
   render() {
     return (
       <div className='Room'>
-        <p>Room</p>
+        <p>{this.props.room.name}</p>
       </div>
     )
   }

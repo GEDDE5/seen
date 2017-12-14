@@ -1,55 +1,40 @@
 import React, { Component } from 'react'
-
-import api from '../../../utils/api'
+import PropTypes from 'prop-types'
 
 class Input extends Component {
-  constructor(props) {
-    super(props)
-
-    this.token = this.props.token.val()
-    this.api = api(this.token)
-
-    this.state = {
-      roomName: null,
-      stepRequired: true
-    }
-  }
-
-  onKeyUp = event => {
-    const { action } = this.props
+  handleKeyUp = async event => {
     const input = event.target.value.trim().toLowerCase()
-    if (event.key === 'Enter' && (input || action === 'create')) {
-      const { stepRequired } = this.state
-      switch (action) {
-        case 'create':
-          if (stepRequired) {
-            const room = this.verifyRoomName(input, action)
-            if(room.errors) {
-
-            }
-          }
-          break
-        default:
-          break
-      }
+    if (event.key === 'Enter') {
+      this.props.onKeyUp(input)
     }
   }
 
-  verifyRoomName = async (roomName, action) => {
-    return await this.api.rails.rooms.findBy('name', roomName)
+  componentWillReceiveProps(nextProps) {
+    this.input.value = nextProps.stepRequired ? this.input.value : ''
   }
+
+  // eslint-disable-next-line no-return-assign
+  clear = () => this.input.value = ''
 
   render() {
+    const {
+      label,
+      placeholder
+    } = this.props
+
     return (
       <div className='Input'>
         <input
           className='name'
-          placeholder='Name'
+          placeholder={label}
           readOnly
         />
         <input
+          // eslint-disable-next-line no-return-assign
+          ref={r => this.input = r}
           className='action'
-          onKeyUp={this.onKeyUp}
+          onKeyUp={this.handleKeyUp}
+          placeholder={placeholder}
         />
         <input
           className='click'
@@ -59,6 +44,18 @@ class Input extends Component {
       </div>
     )
   }
+}
+
+Input.propTypes = {
+  stepRequired: PropTypes.bool.isRequired,
+  label: PropTypes.string,
+  onKeyUp: PropTypes.func.isRequired,
+  placeholder: PropTypes.string
+}
+
+Input.defaultProps = {
+  label: 'Name',
+  placeholder: null
 }
 
 export default Input

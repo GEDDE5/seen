@@ -1,2 +1,13 @@
 .HomeBase {
+  .page {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+
+    .page-description {
+      font-size: 0.8rem;
+      font-weight: 300;
+      margin-bottom: 0;
+    }
+  }
 }

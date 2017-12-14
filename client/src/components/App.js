@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import api from '../utils/api'
 
+import { withRouter } from 'react-router-dom'
 import Routes from './Routes'
 
 import Loading from './shared/Loading/'
@@ -13,6 +15,7 @@ class App extends Component {
     this.state = {
       loading: true,
       token: null,
+      room: {},
       user: {}
     }
   }
@@ -27,6 +30,11 @@ class App extends Component {
       token: user.token,
       user: user.data
     })
+
+  joinRoom = room => {
+    this.setState({ room })
+    this.props.history.push(`/rooms/${room.slug}`)
+  }
 
   initUser = async () => {
     let user = { token: localStorage.getItem('token') }
@@ -45,25 +53,26 @@ class App extends Component {
     }
   }
 
-  token = {
-    val: () => this.state.token,
-    set: token => this.setState({ token })
-  }
-
   render() {
     const {
-      loading
+      loading,
+      room,
+      user
     } = this.state
 
     if (loading) {
       return <Loading />
     }
 
+    const { token } = this.state
     return (
       <div className='App'>
         <div className='container'>
           <Routes
-            token={this.token}
+            joinRoom={this.joinRoom}
+            token={token}
+            room={room}
+            user={user}
           />
         </div>
       </div>
@@ -71,4 +80,10 @@ class App extends Component {
   }
 }
 
-export default App
+App.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired
+}
+
+export default withRouter(App)

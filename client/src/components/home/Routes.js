@@ -1,8 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import New from './_New'
-import Join from './_Join'
+import ActionPage from './_ActionPage'
 import What from './_What'
 
 const AppRoutes = props => (
@@ -11,7 +10,9 @@ const AppRoutes = props => (
       exact
       path='/'
       render={routerProps => (
-        <New
+        <ActionPage
+          action='create'
+          description='Create new room'
           {...routerProps}
           {...props}
         />
@@ -21,7 +22,9 @@ const AppRoutes = props => (
       exact
       path='/join'
       render={routerProps => (
-        <Join
+        <ActionPage
+          action='join'
+          description='Join existing room'
           {...routerProps}
           {...props}
         />

@@ -1,8 +1,9 @@
 .Input {
   line-height: 1rem;
   margin: 0 auto;
-  margin-bottom: 5rem;
-  width: 85%;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  width: 90%;
 
   input {
     border-style: none;
@@ -30,7 +31,13 @@
   .action {
     border-left: none;
     border-right: none;
-    width: 60%;
+    width: 50%;
+
+    &::placeholder {
+      font-size: 0.65rem;
+      font-weight: 300;
+      text-align: left;
+    }
   }
 
   .click {

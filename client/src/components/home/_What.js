@@ -11,13 +11,13 @@ const What = () => (
         Use Rails 5 in <pre>--api</pre> mode
       </li>
       <li>
-        Pair React with Rails' <pre>ActionCable</pre>
+        Pair React with Rails&apos; <pre>ActionCable</pre>
       </li>
       <li>
         Get on better terms w/ <pre>react-router</pre>
       </li>
       <li>
-        Have a go at ES7's <pre>async/await</pre>
+        Have a go at ES7&apos;s <pre>async/await</pre>
       </li>
       <li>
         Connect disconnected friends
