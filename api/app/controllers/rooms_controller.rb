@@ -29,7 +29,11 @@ class RoomsController < ApplicationController
     if @room = Room.find_by(name: room_name)
       if @room.attributes[:private]
         unless password
-          render json: { errors: false }
+          if @room.user_permitted?(@user)
+            render json: @room.safe
+          else
+            render json: { errors: false }
+          end
         else
           if @room.authenticate!(password)
             @user.update_room_permissions!(@room)
